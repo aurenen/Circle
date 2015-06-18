@@ -108,3 +108,41 @@ function getNextLink($sid) {
     db_disconnect();
     return $link;
 }
+
+function getRandLink($sid) {
+    global $db;
+    db_connect();
+
+    if ($result = $db->query("SELECT id FROM list")) {
+        $max = $result->num_rows;
+        $result->close();
+    }
+    else
+        fail('MySQL getRandLink max', $db->error);
+
+    $rand = rand(1, $max);
+    if ($rand == $sid) {
+        if ($rand == 1)
+            $rand++;
+        else
+            $rand--;
+    }
+
+    $sql = "SELECT url FROM list WHERE id = ?";
+
+    $stmt = $db->prepare($sql);
+
+    if (!$stmt) 
+        fail('MySQL getNextLink prepare', $stmt->error);
+    if (!$stmt->bind_param('i', $rand))
+        fail('MySQL getNextLink bind_param', $stmt->error);
+    if (!$stmt->execute())
+        fail('MySQL getNextLink execute', $stmt->error);
+    if (!$stmt->bind_result($link))
+        fail('MySQL getNextLink bind_result', $stmt->error);
+    if (!$stmt->fetch() && $stmt->errno)
+        fail('MySQL getNextLink fetch', $stmt->error);
+
+    db_disconnect();
+    return $link;
+}
