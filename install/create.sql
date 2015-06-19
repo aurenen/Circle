@@ -1,8 +1,7 @@
 CREATE TABLE control (
     uid INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL,
-    password VARCHAR(256) NOT NULL,
-    emblem VARCHAR(50) NOT NULL
+    password VARCHAR(256) NOT NULL
 );
 --
 CREATE TABLE users (
@@ -19,5 +18,6 @@ CREATE TABLE list (
     title VARCHAR(70),
     banner VARCHAR(120),
     description VARCHAR(400),
+    approved TINYINT,
     UNIQUE (id)
 );
