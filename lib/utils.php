@@ -26,7 +26,7 @@ function db_disconnect() {
     $db->close();
 }
 
-// function taken from phpass instructions/examples 
+/* function taken from phpass instructions/examples */
 function fail($pub, $pvt = '') {
     $debug = true;
     $msg = $pub;
@@ -43,7 +43,7 @@ function fail($pub, $pvt = '') {
     Misc Functions
 *****************************************/
 
-// technically depreciated, but just in case
+/* technically depreciated, but just in case */
 function get_post_var($var) {
     $val = $_POST[$var];
     if (get_magic_quotes_gpc())
@@ -63,6 +63,12 @@ function cleanSQL($val) {
     Ring Functions
 *****************************************/
 
+/**
+ * return a string url of the previous link in the webring
+ *
+ * @param int $sid (site id)
+ * @return string
+ */
 function getPrevLink($sid) {
     global $db;
     db_connect();
@@ -86,6 +92,12 @@ function getPrevLink($sid) {
     return $link;
 }
 
+/**
+ * return a string url of the next link in the webring
+ *
+ * @param int $sid (site id)
+ * @return string
+ */
 function getNextLink($sid) {
     global $db;
     db_connect();
@@ -109,6 +121,12 @@ function getNextLink($sid) {
     return $link;
 }
 
+/**
+ * return a string url of a random link in the webring
+ *
+ * @param int $sid (site id)
+ * @return string
+ */
 function getRandLink($sid) {
     global $db;
     db_connect();
@@ -121,7 +139,7 @@ function getRandLink($sid) {
         fail('MySQL getRandLink max', $db->error);
 
     $rand = rand(1, $max);
-    if ($rand == $sid) {
+    if ($rand == $sid) { // make sure it's not the same as current site
         if ($rand == 1)
             $rand++;
         else
